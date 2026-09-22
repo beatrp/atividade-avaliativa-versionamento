@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Beatriz</title>
+    <title>Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,49 +12,71 @@
             background-color: #f4f4f9;
         }
 
-        /* Menu de Navegação */
+        /* Menu */
         nav {
             background-color: #333;
             color: white;
-            padding: 15px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         nav ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
-        }
-
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
+            display: flex;
+            gap: 20px;
         }
 
         nav ul li a {
             color: white;
             text-decoration: none;
             font-weight: bold;
+            cursor: pointer;
         }
 
         nav ul li a:hover {
             text-decoration: underline;
         }
 
+        .logout-btn {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background-color: #e03e3e;
+        }
+
         /* Conteúdo Principal */
         .container {
-            padding: 20px;
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .welcome-card {
             background-color: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .welcome-card h1 {
             color: #333;
             margin-top: 0;
+        }
+
+        .welcome-card p {
+            color: #666;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -63,21 +85,39 @@
     <!-- Menu simples -->
     <nav>
         <ul>
-            <li><a href="#">Início</a></li>
+            <li><a href="dashboard.html">Início</a></li>
             <li><a href="#">Projetos</a></li>
             <li><a href="#">Relatórios</a></li>
             <li><a href="#">Configurações</a></li>
-            <li><a href="#">Sair</a></li>
         </ul>
+        <button class="logout-btn" id="sairBtn">Sair</button>
     </nav>
 
     <!-- Conteúdo do Dashboard -->
     <div class="container">
         <div class="welcome-card">
-            <h1>Bem-vinda, Beatriz! 👋</h1>
+            <h1 id="boasVindas">Bem-vinda, Beatriz! 👋</h1>
             <p>Você está autenticada no sistema. Acesse o menu acima para navegar pelas seções.</p>
         </div>
     </div>
 
+    <script>
+        // Verifica se há um usuário logado
+        const usuarioLogado = localStorage.getItem("usuarioLogado");
+
+        if (!usuarioLogado) {
+            // Tentativa de acessar sem estar logado volta o user para a tela de login
+            window.location.href = "index.html";
+        } else {
+            // Exibe nome de usuário logado na mensagem
+            document.getElementById("boasVindas").textContent = `Bem-vinda(o), ${usuarioLogado}! 👋`;
+        }
+
+        // Ação de Logout
+        document.getElementById("sairBtn").addEventListener("click", () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index.html";
+        });
+    </script>
 </body>
 </html>
