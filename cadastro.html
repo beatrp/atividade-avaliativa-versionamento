@@ -3,115 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
+    <title>Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #121212;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .cadastro-container {
-            background-color: #1f1f1f;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            width: 300px;
-        }
-
-        h1 {
-            margin-top: 0;
-            text-align: center;
-        }
-
-        input {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
+        * {
             box-sizing: border-box;
         }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #03dac6;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0d0606;
+            color: #f0e6e6;
         }
 
-        button:hover {
-            background-color: #00bfa5;
+        /* Menu Navigation */
+        nav {
+            background-color: #180a0a;
+            border-bottom: 1px solid #331010;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
         }
 
-        .login-link a {
-            color: #03dac6;
+        nav ul li a {
+            color: #b09e9e;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
-        .login-link a:hover {
-            text-decoration: underline;
+        nav ul li a:hover {
+            color: #ff4d4d;
         }
 
-        #mensagem {
-            margin-top: 10px;
-            text-align: center;
-            font-weight: bold;
+        .logout-btn {
+            background-color: #5c0000;
+            color: white;
+            border: 1px solid #800000;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #800000;
+        }
+
+        /* Conteúdo Principal */
+        .container {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .welcome-card {
+            background-color: #180a0a;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid #331010;
+        }
+
+        .welcome-card h1 {
+            color: #ffffff;
+            margin-top: 0;
+        }
+
+        .welcome-card p {
+            color: #b09e9e;
+            font-size: 16px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-    <div class="cadastro-container">
-        <h1>Criar Conta</h1>
-        
-        <form id="cadastroForm">
-            <input type="text" id="nome" placeholder="Nome (Ex: Beatriz)" required>
-            <input type="password" id="senha" placeholder="Senha" required>
-            <button type="submit">Cadastrar</button>
-            <p id="mensagem"></p>
-        </form>
+    <nav>
+        <ul>
+            <li><a href="dashboard.html">Início</a></li>
+            <li><a href="#">Projetos</a></li>
+            <li><a href="#">Relatórios</a></li>
+            <li><a href="#">Configurações</a></li>
+        </ul>
+        <button class="logout-btn" id="sairBtn">Sair</button>
+    </nav>
 
-        <div class="login-link">
-            <p>Já tem uma conta? <a href="index.html">Faça login</a></p>
+    <div class="container">
+        <div class="welcome-card">
+            <h1 id="boasVindas">Bem-vinda, Beatriz! 👋</h1>
+            <p>Você está autenticada no sistema. Acesse o menu acima para navegar pelas seções.</p>
         </div>
     </div>
 
     <script>
-        const cadastroForm = document.getElementById("cadastroForm");
-        const nome = document.getElementById("nome");
-        const senha = document.getElementById("senha");
-        const mensagem = document.getElementById("mensagem");
+        const usuarioLogado = localStorage.getItem("usuarioLogado");
 
-        cadastroForm.addEventListener("submit", (e) => {
-            e.preventDefault();
+        if (!usuarioLogado) {
+            window.location.href = "index.html";
+        } else {
+            document.getElementById("boasVindas").textContent = `Bem-vinda(o), ${usuarioLogado}! 👋`;
+        }
 
-            localStorage.setItem("usuarioCadastrado", nome.value.trim());
-            localStorage.setItem("senhaCadastrada", senha.value.trim());
-
-            mensagem.style.color = "#03dac6";
-            mensagem.textContent = "Cadastro realizado com sucesso!";
-
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 1200);
+        document.getElementById("sairBtn").addEventListener("click", () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index.html";
         });
     </script>
 </body>
